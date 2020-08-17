@@ -2,18 +2,14 @@ package gorsapemhelpers
 
 // Refactored from https://stackoverflow.com/a/44688503/6063917
 import (
-	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
 )
 
-func GenerateRSAKeyPair() (*rsa.PrivateKey, *rsa.PublicKey) {
-	privateKey, _ := rsa.GenerateKey(rand.Reader, 4096)
-	return privateKey, &privateKey.PublicKey
-}
 
+// Exports a rsa.PrivateKey as PEM.
 func ExportRSAPrivateKeyAsPEM(privateKey *rsa.PrivateKey) string {
 	privateKeyBytes := x509.MarshalPKCS1PrivateKey(privateKey)
 	privateKeyPEM := pem.EncodeToMemory(
@@ -25,6 +21,7 @@ func ExportRSAPrivateKeyAsPEM(privateKey *rsa.PrivateKey) string {
 	return string(privateKeyPEM)
 }
 
+// Parses a rsa.PrivateKey from PEM.
 func ParseRSAPrivateKeyFromPEM(privateKeyPEM string) (*rsa.PrivateKey, error) {
 	block, _ := pem.Decode([]byte(privateKeyPEM))
 	if block == nil {
@@ -39,6 +36,7 @@ func ParseRSAPrivateKeyFromPEM(privateKeyPEM string) (*rsa.PrivateKey, error) {
 	return privateKey, nil
 }
 
+// Exports a rsa.PublicKey as PEM.
 func ExportRSAPublicKeyAsPEM(publicKey *rsa.PublicKey) (string, error) {
 	publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
 	if err != nil {
@@ -54,6 +52,7 @@ func ExportRSAPublicKeyAsPEM(publicKey *rsa.PublicKey) (string, error) {
 	return string(publicKeyPEM), nil
 }
 
+// Parses a rsa.PublicKey from PEM.
 func ParseRSAPublicKeyFromPEM(publicKeyPEM string) (*rsa.PublicKey, error) {
 	block, _ := pem.Decode([]byte(publicKeyPEM))
 	if block == nil {

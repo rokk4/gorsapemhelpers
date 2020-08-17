@@ -1,13 +1,21 @@
 package gorsapemhelpers
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
 	"testing"
 )
+
+// Generates an RSA KeyPair for the test.
+func generateRSAKeyPair() (*rsa.PrivateKey, *rsa.PublicKey) {
+	privateKey, _ := rsa.GenerateKey(rand.Reader, 4096)
+	return privateKey, &privateKey.PublicKey
+}
 
 func TestRSAPemTools(t *testing.T) {
 
 	// Create the key pair.
-	privateKey, publicKey := GenerateRSAKeyPair()
+	privateKey, publicKey := generateRSAKeyPair()
 
 	// Export the keys as PEM.
 	privateKeyAsPEM := ExportRSAPrivateKeyAsPEM(privateKey)
