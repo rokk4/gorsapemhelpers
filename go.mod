@@ -1,1 +1,1 @@
-module github.com/rokk4/rsapemhelpers
+module github.com/rokk4/gorsapemhelpers
